@@ -12,11 +12,7 @@ interface GitsDataSource: BaseDataSource {
 
     fun getMovies(callback: GetMoviesCallback)
 
-    fun getMovieById(movieId: Int, callback: GetMoviesByIdCallback)
-
-    fun saveMovie(movie: Movie)
-
-    fun remoteMovie(isRemote: Boolean)
+    fun saveMovie(movie: List<Movie>)
 
     interface GetMoviesCallback : GitsResponseCallback<List<Movie>>
 

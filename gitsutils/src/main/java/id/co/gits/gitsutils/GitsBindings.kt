@@ -72,21 +72,21 @@ object GitsBindings {
         }
     }
 
-    @BindingAdapter("app:recyclerData", "app:orientationList")
-    @JvmStatic
-    fun <T> setupRecyclerviewDatas(recyclerView: RecyclerView, recyclerData: MutableLiveData<List<T>>,
-                                   orientationList: Int?) {
-        try {
-            if (recyclerView.adapter is GitsBindableAdapter<*>) {
-                if (orientationList == 1) recyclerView.horizontalListStyle() else
-                    recyclerView.verticalListStyle()
-                (recyclerView.adapter as GitsBindableAdapter<T>)
-                        .setRecyclerViewData(recyclerData.value!!)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+//    @BindingAdapter("app:recyclerData", "app:orientationList")
+//    @JvmStatic
+//    fun <T> setupRecyclerviewDatas(recyclerView: RecyclerView, recyclerData: MutableLiveData<List<T>>,
+//                                   orientationList: Int?) {
+//        try {
+//            if (recyclerView.adapter is GitsBindableAdapter<*>) {
+//                if (orientationList == 1) recyclerView.horizontalListStyle() else
+//                    recyclerView.verticalListStyle()
+//                (recyclerView.adapter as GitsBindableAdapter<T>)
+//                        .setRecyclerViewData(recyclerData.value!!)
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 
     @BindingAdapter("app:textHtmlContent")
     @JvmStatic

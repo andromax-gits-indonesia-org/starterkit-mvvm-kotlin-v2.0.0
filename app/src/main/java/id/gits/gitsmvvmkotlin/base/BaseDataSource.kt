@@ -12,4 +12,6 @@ interface BaseDataSource {
         fun onFinish()
         fun onFailed(statusCode: Int, errorMessage: String? = "")
     }
+
+    fun onClearDisposables()
 }

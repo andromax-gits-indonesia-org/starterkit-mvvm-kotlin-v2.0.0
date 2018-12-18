@@ -3,35 +3,19 @@ package id.co.gits.movies.main
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import id.co.gits.gitsdriver.utils.GitsBindableAdapter
-import id.co.gits.movies.BR
 import id.co.gits.movies.databinding.MainItemBinding
 import id.gits.gitsmvvmkotlin.data.model.Movie
+import id.co.gits.movies.BR
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
  */
-class MainAdapter(private var mainViewModel: MainViewModel) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(), GitsBindableAdapter<Movie> {
-
-    var data = emptyList<Movie>()
-
-    override fun setRecyclerViewData(data: List<Movie>) {
-        this.data = data
-
-        notifyDataSetChanged()
-    }
+class MainAdapter(private val movieItemClickListener: MainItemUserActionListener,
+                  private val data: List<Movie>) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = data[position]
-
-        val userActionListener = object : MainItemUserActionListener {
-            override fun onMovieClicked(movie: Movie) {
-                mainViewModel.openDetailMovie.value = movie
-            }
-        }
-
-        (holder as MainItemHolder).bindItem(item, userActionListener)
+        (holder as MainItemHolder).bindItem(data[position], movieItemClickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -41,9 +25,11 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         (holder as MainItemHolder).apply {
-            mainItemBinding.setVariable(BR.item, null)
-            mainItemBinding.setVariable(BR.userActionListener, null)
-            mainItemBinding.executePendingBindings()
+            mainItemBinding.apply {
+                setVariable(BR.item, null)
+                setVariable(BR.userActionListener, null)
+                executePendingBindings()
+            }
         }
 
         super.onViewRecycled(holder)

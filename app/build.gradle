@@ -43,7 +43,6 @@ android {
             }
         }
     }
-    // Json file database schema address
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
@@ -63,62 +62,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-//        release {
-//            minifyEnabled true
-//            debuggable false
-//            shrinkResources true
-//            jniDebuggable false
-//            renderscriptDebuggable false
-//            pseudoLocalesEnabled false
-//            zipAlignEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
-//        }
-//        debug {
-//            minifyEnabled false
-//            debuggable true
-//        }
-//        stagging {
-//            minifyEnabled false
-//            debuggable true
-//        }
     }
-//    flavorDimensions "default"
-//    productFlavors {
-//        production {
-//            // For release package name
-//            applicationId "com.client.loremipsum.gits"
-//            applicationIdSuffix ".production"
-//            signingConfig signingConfigs.released
-//
-//            // Env production server
-//            buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/"'
-//
-//            // Inject app name for release
-//            resValue "string", "app_name", "Baso Bandung"
-//        }
-//        development {
-//            // For development package name
-//            applicationId "com.client.loremipsum.gits"
-//            applicationIdSuffix ".development"
-//
-//            // Env development server
-//            buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/"'
-//
-//            // Inject app name for development
-//            resValue "string", "app_name", "Baso Bandung Development"
-//        }
-//        stag {
-//            // For stagging package name
-//            applicationId "com.client.loremipsum.gits"
-//            applicationIdSuffix ".staging"
-//
-//            // Env staging server
-//            buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/"'
-//
-//            // Inject app name for stagging
-//            resValue "string", "app_name", "Baso Bandung Staging"
-//        }
-//    }
     dataBinding {
         enabled = true
     }
@@ -126,10 +70,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     dynamicFeatures = [":movies", ":moviesdetail"]
-
-
 }
 
 androidExtensions {
@@ -140,6 +81,9 @@ dependencies {
     api project(':gitsutils')
 
     annotationProcessor googleLibraries.archRoomComp
+
     kapt googleLibraries.archRoomComp
+
     api googleLibraries.archRoomRuntime
+    api googleLibraries.archRoomRx
 }

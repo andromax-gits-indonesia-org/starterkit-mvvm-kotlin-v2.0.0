@@ -33,7 +33,7 @@ fun View.invisible(
 fun View.showSnackbarWithCustomColor(
     message: String,
     textColor: Int, backgroundColor: Int,
-    duration: Int
+    duration: Int = 5000
 ) {
     val finalMessage = if (TextUtils.isEmpty(message)) {
         SERVER_ERROR_MESSAGE_DEFAULT
@@ -67,7 +67,7 @@ fun View.showSnackbarWithCustomColor(
 
 fun View.showSnackbarDefault(
     message: String,
-    duration: Int
+    duration: Int = 5000
 ) {
     val finalMessage = if (TextUtils.isEmpty(message)) {
         SERVER_ERROR_MESSAGE_DEFAULT

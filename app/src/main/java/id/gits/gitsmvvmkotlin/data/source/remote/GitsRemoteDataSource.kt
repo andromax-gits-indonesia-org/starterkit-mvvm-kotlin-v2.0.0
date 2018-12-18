@@ -7,6 +7,8 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
 import id.gits.gitsmvvmkotlin.util.GitsNullAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -20,13 +22,13 @@ object GitsRemoteDataSource : GitsDataSource {
                 .create()
     }
 
+    private var compositeDisposable : CompositeDisposable? = null
+
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
         GitsApiService.getApiService
                 .getMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { callback.onShowProgressDialog() }
-                .doOnTerminate { callback.onHideProgressDialog() }
                 .subscribe(object : ApiCallback<BaseApiModel<List<Movie>>>() {
                     override fun onSuccess(model: BaseApiModel<List<Movie>>) {
                         val oldData = model.results
@@ -38,24 +40,6 @@ object GitsRemoteDataSource : GitsDataSource {
                         }
 
                         callback.onSuccess(newData)
-
-                        // if (model.code == 200) {
-                            // if (model.data != null) {
-                                // val oldData = model.results
-                                // val newData = ArrayList<Movie>()
-
-                                // for (i in 0 until oldData!!.size) {
-                                    // newData.add(Gson().fromJson(movieListAdapter.toJson(oldData[i]),
-                                            // Movie::class.java))
-                                // }
-
-                                // callback.onSuccess(newData)
-                            // } else {
-                                // callback.onFailed(model.code, model.message)
-                            // }
-                        // } else {
-                            // callback.onFailed(model.code, model.message)
-                        // }
                     }
 
                     override fun onFailure(code: Int, errorMessage: String) {
@@ -65,18 +49,25 @@ object GitsRemoteDataSource : GitsDataSource {
                     override fun onFinish() {
                         callback.onFinish()
                     }
+
+                    override fun onStartObserver(disposable: Disposable) {
+                        addSubscribe(disposable)
+                    }
                 })
     }
 
-    override fun getMovieById(movieId: Int, callback: GitsDataSource.GetMoviesByIdCallback) {
+    override fun saveMovie(movie: List<Movie>) {
         // Tidak digunakan
     }
 
-    override fun remoteMovie(isRemote: Boolean) {
-        // Tidak digunakan
+    override fun onClearDisposables() {
+        compositeDisposable?.clear()
     }
 
-    override fun saveMovie(movie: Movie) {
-        // Tidak digunakan
+    fun addSubscribe(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
+            compositeDisposable?.add(disposable)
+        }
     }
 }

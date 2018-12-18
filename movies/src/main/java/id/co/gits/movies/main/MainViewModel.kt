@@ -1,48 +1,45 @@
 package id.co.gits.movies.main
 
 import android.app.Application
-import android.databinding.ObservableField
-import com.google.gson.Gson
 import id.co.gits.gitsbase.BaseViewModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
-import id.gits.gitsmvvmkotlin.data.source.GitsRepository
 import id.gits.gitsmvvmkotlin.util.SingleLiveEvent
+import radhika.yusuf.id.mvvmkotlin.utils.chocohelper.ChocoChips
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
  */
-class MainViewModel(context: Application, private val gitsRepository: GitsRepository) : BaseViewModel(context) {
+class MainViewModel(context: Application) : BaseViewModel(context) {
 
     var movieListLive = SingleLiveEvent<List<Movie>>()
     val snackBarMessageRemote = SingleLiveEvent<String>()
 
-    internal val openDetailMovie = SingleLiveEvent<Movie>()
-
-    fun start() {
-        val isRemote = true
-
-        getMovies(isRemote)
+    override fun start() {
+        super.start()
+        ChocoChips.inject(this)
+        getMovies()
     }
 
-    private fun getMovies(isRemote: Boolean) {
-        if (isRemote) {
-            gitsRepository.remoteDataSource.remoteMovie(isRemote)
-        }
+    override fun onClearDisposable() {
+        super.onClearDisposable()
+        gitsRepository.onClearDisposables()
+    }
 
-        gitsRepository.remoteDataSource.getMovies(object : GitsDataSource.GetMoviesCallback {
+
+    private fun getMovies() {
+        gitsRepository.getMovies(object : GitsDataSource.GetMoviesCallback {
             override fun onShowProgressDialog() {
-                eventShowProgress.value = true
+
             }
 
             override fun onHideProgressDialog() {
-                eventShowProgress.value = false
+
             }
 
             override fun onSuccess(data: List<Movie>) {
                 movieListLive.apply {
-                    postValue(null)
-                    postValue(data)
+                    value = data
                 }
             }
 

@@ -12,7 +12,6 @@ android {
         versionCode configVersion.code
         versionName configVersion.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     compileOptions {

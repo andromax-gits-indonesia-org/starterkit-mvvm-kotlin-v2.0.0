@@ -207,22 +207,6 @@ class GitsHelper {
         }
     }
 
-    object Navigator {
-        fun openAppWithPackageName(context: Context, packageManager: PackageManager, packageName: String) {
-            val launchIntent = packageManager.getLaunchIntentForPackage(packageName.trim())
-            context.startActivity(launchIntent)
-        }
-
-        fun openAppWithSpecificClassName(context: Context, packageName: String,
-                                         fullPackageClassName: String) {
-            val launchIntent = Intent(Intent.ACTION_MAIN)
-
-            launchIntent.setClassName(packageName, fullPackageClassName)
-
-            context.startActivity(launchIntent)
-        }
-    }
-
     object Const {
         // If getting data from intent
         const val EXTRA_MOVIE_ITEM = "EXTRA_MOVIE_ITEM"

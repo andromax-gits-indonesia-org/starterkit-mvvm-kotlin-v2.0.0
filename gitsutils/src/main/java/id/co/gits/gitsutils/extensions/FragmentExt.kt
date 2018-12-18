@@ -12,12 +12,12 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import id.ac.unpad.profolio.util.DialogUtil
 import id.co.gits.gitsdriver.utils.GitsHelper
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 
 inline fun <FRAGMENT : Fragment> FRAGMENT.putArgs(argsBuilder: Bundle.() -> Unit):
@@ -31,7 +31,7 @@ inline fun <reified T : AppCompatActivity> Fragment.navigator(
 }
 
 inline fun <reified T : AppCompatActivity> Fragment.navigator(
-    param: String
+        param: String
 ) {
     val intent = Intent(context, T::class.java)
     intent.putExtra("param", param)
@@ -46,14 +46,14 @@ fun Fragment.onFinish() {
  * @param activityPackage => exp : id.co.gits.feature_home_detail.HomeDetailActivity
  */
 fun Fragment.navigatorImplicit(
-    context: Context,
-    activityPackage: String
+        context: Context,
+        activityPackage: String
 ) {
     val intent = Intent()
     try {
         intent.setClass(
-            context,
-            Class.forName(activityPackage)
+                context,
+                Class.forName(activityPackage)
         )
         startActivity(intent)
     } catch (e: Exception) {
@@ -62,41 +62,41 @@ fun Fragment.navigatorImplicit(
 }
 
 fun Fragment.showToast(
-    context: Context,
-    message: String
+        context: Context,
+        message: String
 ) {
     Toast.makeText(
-        context, if (TextUtils.isEmpty(message))
-            GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT else message, Toast.LENGTH_SHORT
+            context, if (TextUtils.isEmpty(message))
+        GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT else message, Toast.LENGTH_SHORT
     ).show()
 }
 
 fun Fragment.logD(
-    TAG: Fragment,
-    message: String
+        TAG: Fragment,
+        message: String
 ) {
     Log.d(TAG::class.java.simpleName, message)
 }
 
 fun Fragment.logV(
-    classs: Class<*>,
-    message: String
+        classs: Class<*>,
+        message: String
 ) {
     Log.v(classs::class.java.simpleName, message)
 }
 
 fun Fragment.logE(
-    classs: Class<*>,
-    message: String
+        classs: Class<*>,
+        message: String
 ) {
     Log.e(classs::class.java.simpleName, message)
 }
 
 fun Fragment.saveBitmapToLocalFile(
-    context: Context,
-    imageBitmap: Bitmap,
-    directoryName: String?,
-    showMessageStatus: Boolean
+        context: Context,
+        imageBitmap: Bitmap,
+        directoryName: String?,
+        showMessageStatus: Boolean
 ) {
     val root = Environment.getExternalStorageDirectory().toString()
 
@@ -151,13 +151,15 @@ fun Fragment.saveBitmapToLocalFile(
         context.sendBroadcast(scanIntent)
     } else {
         context.sendBroadcast(
-            Intent(
-                Intent.ACTION_MEDIA_MOUNTED,
-                Uri.parse(
-                    GitsHelper.Const.SDCARD_URI_PATH + Environment
-                        .getExternalStorageDirectory()
+                Intent(
+                        Intent.ACTION_MEDIA_MOUNTED,
+                        Uri.parse(
+                                GitsHelper.Const.SDCARD_URI_PATH + Environment
+                                        .getExternalStorageDirectory()
+                        )
                 )
-            )
         )
     }
 }
+
+

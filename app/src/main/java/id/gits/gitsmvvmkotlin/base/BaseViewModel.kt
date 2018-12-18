@@ -4,10 +4,13 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableField
 import android.util.Log
+import com.readystatesoftware.chuck.internal.ui.MainActivity
+import id.gits.gitsmvvmkotlin.data.source.GitsRepository
 import id.gits.gitsmvvmkotlin.util.NavigationParamGlobal
 import id.gits.gitsmvvmkotlin.util.SingleLiveEvent
+import radhika.yusuf.id.mvvmkotlin.utils.chocohelper.ChocoRepository
 
-open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
     var eventShowProgress = SingleLiveEvent<Boolean>()
     var eventGlobalMessage = SingleLiveEvent<String>()
     var eventNavigationPage = SingleLiveEvent<NavigationParamGlobal>()
@@ -18,4 +21,12 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
     fun showLogDebug(TAG: String, data: String) = Log.d(TAG, data)
     fun showLogVerbose(TAG: String, data: String) = Log.v(TAG, data)
     fun showLogError(TAG: String, errorMessage: String) = Log.e(TAG, errorMessage)
+
+
+    @ChocoRepository
+    lateinit var gitsRepository: GitsRepository
+
+    open fun start() {}
+    open fun onClearDisposable() {}
+
 }

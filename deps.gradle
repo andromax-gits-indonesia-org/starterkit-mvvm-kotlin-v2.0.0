@@ -113,6 +113,7 @@ ext {
             archLcExt      : "android.arch.lifecycle:extensions:${archLifecycleVersion}",
             archLcComp     : "android.arch.lifecycle:compiler:${archLifecycleVersion}",
             archLcJava     : "android.arch.lifecycle:common-java8:${archLifecycleVersion}",
+            archLcStreams  : "android.arch.lifecycle:reactivestreams:${archLifecycleVersion}",
             dataBinding    : "com.android.databinding:compiler:${gradleVersion}"
     ]
 

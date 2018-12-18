@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="movielist">Movie List</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
 </resources>

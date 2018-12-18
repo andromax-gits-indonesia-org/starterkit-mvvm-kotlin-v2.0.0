@@ -1,28 +1,21 @@
 package id.co.gits.moviesdetail
 
-import android.databinding.DataBindingUtil
-import android.os.Bundle
+import id.ac.unpad.profolio.util.ext.replaceFragmentInActivity
 import id.co.gits.moviesdetail.databinding.MainDetailActivityBinding
 import id.gits.gitsmvvmkotlin.base.BaseActivity
-import id.gits.gitsmvvmkotlin.util.replaceFragmentInActivity
-import id.gits.gitsmvvmkotlin.util.transparentStatusBar
 
-class MainDetailActivity : BaseActivity() {
+class MainDetailActivity : BaseActivity<MainDetailActivityBinding>() {
 
-    private lateinit var viewBinding: MainDetailActivityBinding
+    override fun bindLayoutRes() = R.layout.main_detail_activity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewBinding = DataBindingUtil.setContentView(this, R.layout.main_detail_activity)
-        viewBinding.apply {
-            transparentStatusBar(window.decorView)
+    override fun bindToolbarId() = 0
 
-            if (savedInstanceState == null) {
-                replaceFragmentInActivity(MainDetailFragment.newInstance(212),
-                        R.id.frame_container)
-            }
-        }
+    override fun bindFragmentInstance() = MainDetailFragment.newInstance(212)
+
+    override fun bindFragmentContainerId() = R.id.frame_container
+
+    override fun onStartWork() {
+
     }
 
-    fun obtainViewModel(): MainDetailViewModel = obtainViewModel(MainDetailViewModel::class.java)
 }
