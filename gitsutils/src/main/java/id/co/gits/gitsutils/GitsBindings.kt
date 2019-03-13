@@ -1,12 +1,10 @@
 package id.co.gits.gitsdriver.utils
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.support.v4.text.PrecomputedTextCompat
 import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.AppCompatTextView
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
@@ -14,8 +12,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import id.ac.unpad.profolio.util.ext.horizontalListStyle
-import id.ac.unpad.profolio.util.ext.verticalListStyle
 import id.co.gits.gitsutils.R
 
 object GitsBindings {

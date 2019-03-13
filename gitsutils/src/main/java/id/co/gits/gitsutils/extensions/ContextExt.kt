@@ -1,12 +1,10 @@
-package id.ac.unpad.profolio.util.ext
+package id.co.gits.gitsutils.extensions
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import id.ac.unpad.profolio.util.DialogUtil
 
 inline fun <reified T : AppCompatActivity> Context.navigator(
 

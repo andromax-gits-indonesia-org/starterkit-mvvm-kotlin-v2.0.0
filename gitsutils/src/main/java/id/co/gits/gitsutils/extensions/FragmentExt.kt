@@ -1,4 +1,4 @@
-package id.ac.unpad.profolio.util.ext
+package id.co.gits.gitsutils.extensions
 
 import android.content.Context
 import android.content.Intent
@@ -7,12 +7,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.support.annotation.AnimRes
+import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import id.ac.unpad.profolio.util.DialogUtil
 import id.co.gits.gitsdriver.utils.GitsHelper
 import java.io.File
 import java.io.FileNotFoundException
@@ -163,3 +166,183 @@ fun Fragment.saveBitmapToLocalFile(
 }
 
 
+/**
+ * Runs a FragmentTransaction, then calls commit().
+ */
+private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
+    beginTransaction().apply {
+        action()
+    }.commit()
+}
+
+/**
+ * Runs a FragmentTransaction, but check for fragment safety then calls commit().
+ * TODO: Set allowStateLoss be true
+ */
+private inline fun FragmentManager.safeTransact(allowStateLoss: Boolean,
+                                                action: FragmentTransaction.() -> Unit) {
+    beginTransaction().apply {
+        action()
+        if (!isStateSaved) commit()
+        else if (allowStateLoss) commitAllowingStateLoss()
+    }
+}
+
+inline fun <reified FRAGMENT : Fragment> AppCompatActivity.setFragmentTag(): String? =
+        FRAGMENT::class.java.simpleName
+
+inline fun <reified FRAGMENT : Fragment> AppCompatActivity.getFragmentByTag(): Fragment? =
+        supportFragmentManager.findFragmentByTag(FRAGMENT::class.java.simpleName)
+
+// TODO: Build add and hide fragment: https://stackoverflow.com/a/16490344/3763032
+fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment,
+                                                frameId: Int,
+                                                allowStateLoss: Boolean = false) {
+    supportFragmentManager.safeTransact(allowStateLoss) {
+        replace(frameId, fragment)
+    }
+}
+
+/**
+ * The `fragment` is added to the container view with id `frameId`. The operation is
+ * performed by the `fragmentManager`.
+ */
+fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment,
+                                                frameId: Int,
+                                                tag: String? = null,
+                                                allowStateLoss: Boolean = false,
+                                                @AnimRes enterAnimation: Int = 0,
+                                                @AnimRes exitAnimation: Int = 0,
+                                                @AnimRes popEnterAnimation: Int = 0,
+                                                @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        if (tag == null)
+            replace(frameId, fragment)
+        else replace(frameId, fragment, tag)
+    }
+}
+
+fun AppCompatActivity.replaceFragmentWithBackstack(fragment: Fragment,
+                                                   frameId: Int,
+                                                   allowStateLoss: Boolean = false,
+                                                   @AnimRes enterAnimation: Int = 0,
+                                                   @AnimRes exitAnimation: Int = 0,
+                                                   @AnimRes popEnterAnimation: Int = 0,
+                                                   @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        replace(frameId, fragment)
+        addToBackStack(null)
+    }
+}
+
+fun AppCompatActivity.addFragmentWithBackStack(fragment: Fragment?,
+                                               frameId: Int,
+                                               tag: String? = null,
+                                               allowStateLoss: Boolean = false,
+                                               @AnimRes enterAnimation: Int = 0,
+                                               @AnimRes exitAnimation: Int = 0,
+                                               @AnimRes popEnterAnimation: Int = 0,
+                                               @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        if (tag != null)
+            add(frameId, fragment ?: Fragment(), tag)
+        else
+            add(frameId, fragment ?: Fragment())
+        addToBackStack(null)
+    }
+}
+
+fun Fragment.replaceFragment(fragment: Fragment,
+                             frameId: Int,
+                             tag: String? = null,
+                             allowStateLoss: Boolean = false,
+                             @AnimRes enterAnimation: Int = 0,
+                             @AnimRes exitAnimation: Int = 0,
+                             @AnimRes popEnterAnimation: Int = 0,
+                             @AnimRes popExitAnimation: Int = 0) {
+    childFragmentManager.safeTransact(allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        if (tag != null)
+            replace(frameId, fragment, tag)
+        else
+            replace(frameId, fragment)
+    }
+}
+
+
+/**
+ * Method to replace the fragment. The [fragment] is added to the container view with id
+ * [containerViewId] and a [tag]. The operation is performed by the supportFragmentManager.
+ */
+fun AppCompatActivity.replaceFragmentSafely(fragment: Fragment,
+                                            tag: String,
+                                            allowStateLoss: Boolean = false,
+                                            @IdRes containerViewId: Int,
+                                            @AnimRes enterAnimation: Int = 0,
+                                            @AnimRes exitAnimation: Int = 0,
+                                            @AnimRes popEnterAnimation: Int = 0,
+                                            @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        replace(containerViewId, fragment, tag)
+    }
+}
+
+/**
+ * For bottomnav
+ */
+fun AppCompatActivity.hideFragmentSafely(activeFragment: Fragment?,
+                                         fragment: Fragment?,
+                                         tag: String?,
+                                         allowStateLoss: Boolean = false,
+                                         @IdRes containerViewId: Int,
+                                         @AnimRes enterAnimation: Int = 0,
+                                         @AnimRes exitAnimation: Int = 0,
+                                         @AnimRes popEnterAnimation: Int = 0,
+                                         @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss = allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        hide(activeFragment ?: Fragment())
+        show(fragment ?: Fragment())
+    }
+}
+
+/**
+ * For bottomnav
+ */
+fun AppCompatActivity.setupFragmentSafely(fragment: Fragment?,
+                                          tag: String?,
+                                          allowStateLoss: Boolean = false,
+                                          @IdRes containerViewId: Int,
+                                          @AnimRes enterAnimation: Int = 0,
+                                          @AnimRes exitAnimation: Int = 0,
+                                          @AnimRes popEnterAnimation: Int = 0,
+                                          @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss = allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        add(containerViewId, fragment ?: Fragment(), tag)
+    }
+}
+
+fun AppCompatActivity.setupHideFragmentSafely(fragment: Fragment?,
+                                              tag: String?,
+                                              allowStateLoss: Boolean = false,
+                                              @IdRes containerViewId: Int,
+                                              @AnimRes enterAnimation: Int = 0,
+                                              @AnimRes exitAnimation: Int = 0,
+                                              @AnimRes popEnterAnimation: Int = 0,
+                                              @AnimRes popExitAnimation: Int = 0) {
+    supportFragmentManager.safeTransact(allowStateLoss = allowStateLoss) {
+        setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+        add(containerViewId, fragment ?: Fragment(), tag)
+        hide(fragment ?: Fragment())
+    }
+}
+
+
+fun AppCompatActivity.popAllBackstackIfExists() {
+    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}

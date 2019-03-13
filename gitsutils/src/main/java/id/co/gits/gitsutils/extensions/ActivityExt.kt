@@ -1,4 +1,4 @@
-package id.ac.unpad.profolio.util.ext
+package id.co.gits.gitsutils.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -20,7 +20,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 
 /**

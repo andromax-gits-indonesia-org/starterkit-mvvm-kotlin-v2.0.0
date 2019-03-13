@@ -1,4 +1,4 @@
-package id.ac.unpad.profolio.util.ext
+package id.co.gits.gitsutils.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager

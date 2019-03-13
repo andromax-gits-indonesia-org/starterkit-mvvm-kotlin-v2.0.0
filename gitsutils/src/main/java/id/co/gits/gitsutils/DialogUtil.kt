@@ -1,4 +1,4 @@
-package id.ac.unpad.profolio.util
+package id.co.gits.gitsutils
 
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Handler
 import android.support.v7.app.AlertDialog
-import id.co.gits.gitsutils.R
 
 class DialogUtil(private val context: Context) {
 
@@ -58,6 +57,9 @@ class DialogUtil(private val context: Context) {
             .create()
     }
 
+    /**
+     * @see: id.co.gits.gitsutils.extensions#Activty.showDialogConfirmationUnit()
+     */
     interface AlertCallbackDialog {
         fun onPositiveDialogClicked(dialogInterface: DialogInterface?, which: Int)
         fun onNegativeDialogClicked(dialogInterface: DialogInterface?, which: Int)
