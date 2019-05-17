@@ -5,8 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import id.co.gits.gitsutils.data.model.Movie
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 
 @Dao
 interface MovieDao {
@@ -22,9 +21,6 @@ interface MovieDao {
 
     @Query("DELETE FROM movie")
     fun deleteAllHeroes()
-
-    @Query("SELECT * FROM movie")
-    fun getMovieList(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie")
     fun getAllMovies(): List<Movie>

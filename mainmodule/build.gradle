@@ -70,11 +70,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dynamicFeatures = [":settings"]
-}
 
-androidExtensions {
-    experimental = true
+    androidExtensions {
+        experimental = true
+    }
+
+
+    dynamicFeatures = [":settings"]
 }
 
 dependencies {

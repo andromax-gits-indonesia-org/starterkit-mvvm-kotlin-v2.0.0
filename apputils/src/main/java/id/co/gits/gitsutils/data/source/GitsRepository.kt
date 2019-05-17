@@ -1,6 +1,8 @@
 package id.co.gits.gitsutils.data.source
 
+import id.co.gits.gitsutils.data.model.Movie
 import id.co.gits.gitsutils.data.source.local.GitsLocalDataSource
+import id.co.gits.gitsutils.data.source.remote.ApiResult
 import id.co.gits.gitsutils.data.source.remote.GitsRemoteDataSource
 
 /**
@@ -10,9 +12,8 @@ import id.co.gits.gitsutils.data.source.remote.GitsRemoteDataSource
 open class GitsRepository(private val remoteDataSource: GitsDataSource,
                           private val localDataSource: GitsDataSource) : GitsDataSource {
 
-    override fun onClearDisposables() {
-        remoteDataSource.onClearDisposables()
-        localDataSource.onClearDisposables()
+    override suspend fun getMovies(): ApiResult<List<Movie>> {
+        return remoteDataSource.getMovies()
     }
 
 

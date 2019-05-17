@@ -7,8 +7,6 @@ ext {
     retrofitVersion = '2.3.0'
     daggerVersion = '2.5'
     glideVersion = '4.8.0'
-    rxJavaVersion = '2.2.2'
-    rxAndroidVersion = '2.1.0'
     mockitoVersion = '2.+'
     mockitoKotlinVersion = '1.5.0'
     butterKnifeVersion = '8.8.1'
@@ -69,12 +67,8 @@ ext {
             glideCompiler           : "com.github.bumptech.glide:compiler:${glideVersion}",
             picasso                 : "com.squareup.picasso:picasso:${picassoVersion}",
             retrofit                : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            retrofitRx              : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
-            retrofitRx2             : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             retrofitGson            : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             retrofitScalar          : "com.squareup.retrofit2:converter-scalars:${retrofitVersion}",
-            rxAndroid               : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            rxJava                  : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             dagger                  : "com.google.dagger:dagger:${daggerVersion}",
             daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
             javaxAnnotation         : "javax.annotation:jsr250-api:1.0",
@@ -118,5 +112,11 @@ ext {
             espressoCore : "com.android.support.test.espresso:espresso-core:${espressoCoreVersion}",
             mockito      : "org.mockito:mockito-core:${mockitoVersion}",
             mockitoKotlin: "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
+    ]
+
+    ktx = [
+            coroutinesAdapter    :  "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
+            coroutinesCore       :  'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1',
+            coroutinesAndroid    :  'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
     ]
 }

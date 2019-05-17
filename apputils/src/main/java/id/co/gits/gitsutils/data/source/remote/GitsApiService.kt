@@ -1,15 +1,14 @@
 package id.co.gits.gitsutils.data.source.remote
 
-import id.co.gits.gitsdriver.utils.GitsHelper
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import id.co.gits.gitsutils.BuildConfig
 import id.co.gits.gitsutils.GitsEnviroment
 import id.co.gits.gitsutils.base.BaseApiModel
-import io.reactivex.Observable
-import okhttp3.Cache
+import id.co.gits.gitsutils.data.model.Movie
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
@@ -21,7 +20,7 @@ import java.util.concurrent.TimeUnit
 interface GitsApiService {
 
     @GET("3/discover/movie?api_key=1b2f29d43bf2e4f3142530bc6929d341&sort_by=popularity.desc")
-    fun getMovies(): Observable<BaseApiModel<List<Any>>>
+    fun getMovies(): Deferred<BaseApiModel<List<Movie>>>
 
     companion object Factory {
 
@@ -32,23 +31,11 @@ interface GitsApiService {
             val mClient = if (BuildConfig.DEBUG) {
                 OkHttpClient.Builder()
                         .addInterceptor(mLoggingInterceptor)
-                        .addInterceptor { chain ->
-                            val request = chain.request()
-                            val url = request.url().newBuilder().build()
-                            val newRequest = request.newBuilder().url(url).build()
-                            chain.proceed(newRequest)
-                        }
                         .readTimeout(30, TimeUnit.SECONDS)
                         .connectTimeout(30, TimeUnit.SECONDS)
                         .build()
             } else {
                 OkHttpClient.Builder()
-                        .addInterceptor { chain ->
-                            val request = chain.request()
-                            val url = request.url().newBuilder().build()
-                            val newRequest = request.newBuilder().url(url).build()
-                            chain.proceed(newRequest)
-                        }
                         .readTimeout(30, TimeUnit.SECONDS)
                         .connectTimeout(30, TimeUnit.SECONDS)
                         .build()
@@ -57,7 +44,7 @@ interface GitsApiService {
             val mRetrofit = Retrofit.Builder()
                     .baseUrl(GitsEnviroment.ConstNetwork.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
                     .client(mClient)
                     .build()
 

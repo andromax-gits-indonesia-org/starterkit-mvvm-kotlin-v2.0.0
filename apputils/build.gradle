@@ -13,8 +13,8 @@ android {
         versionName configVersion.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "BASE_URL_API", "\"https://sellon.thecloudalert.com/api_mobile/\""
-        buildConfigField "String", "BASE_URL", "\"https://sellon.thecloudalert.com/\""
+        buildConfigField "String", "BASE_URL_API", "\"https://api.themoviedb.org/\""
+        buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/\""
     }
 
     compileOptions {
@@ -31,6 +31,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
 }
@@ -56,19 +60,20 @@ dependencies {
     kapt googleLibraries.archRoomComp
 
     api googleLibraries.archRoomRuntime
-    api googleLibraries.archRoomRx
+//    api googleLibraries.archRoomRx
 
     // Network n' debugging
     implementation libraries.stetho
     implementation libraries.retrofit
-    implementation libraries.retrofitRx2
     implementation libraries.okhttp
     implementation libraries.okhttpLogging
+
+    implementation ktx.coroutinesAdapter
+    api ktx.coroutinesCore
+    api ktx.coroutinesAndroid
+
     debugApi libraries.chuckOkHttpLogging
 
-    // Async, thread, and multi thread
-    api libraries.rxAndroid
-    api libraries.rxJava
 
     // Utils
     api libraries.glide

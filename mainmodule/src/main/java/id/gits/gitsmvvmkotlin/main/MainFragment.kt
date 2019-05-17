@@ -44,7 +44,6 @@ class MainFragment : BaseFragment<MainViewModel>(), MainUserActionListener {
 
     override fun setContentData() {
         setupListData()
-        mViewDataBinding.mViewModel?.start()
     }
 
     override fun getMessageType(): MessageType {

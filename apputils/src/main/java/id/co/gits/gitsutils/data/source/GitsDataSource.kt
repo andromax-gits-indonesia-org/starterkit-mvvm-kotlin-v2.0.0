@@ -1,6 +1,8 @@
 package id.co.gits.gitsutils.data.source
 
 import id.co.gits.gitsutils.base.BaseDataSource
+import id.co.gits.gitsutils.data.model.Movie
+import id.co.gits.gitsutils.data.source.remote.ApiResult
 
 
 /**
@@ -9,5 +11,6 @@ import id.co.gits.gitsutils.base.BaseDataSource
 
 interface GitsDataSource: BaseDataSource {
 
+    suspend fun getMovies(): ApiResult<List<Movie>>
 
 }
