@@ -30,18 +30,13 @@ ext {
     tinyDancerVersion = '0.1.2'
     chuckOkHttpLoggingVersion = '1.1.0'
 
-    // APK naming conventions
-    formattedDate = new Date().format('ddMMyy')
-    // TODO: Change this to match real case
-    appName = "Lorem Bambang"
 
-    // TODO: Change this according to QA standardization
     // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds, Build number -> tens. E.g 1.3.72#10 == 1,003,072,10
     configVersion = [
             code  : 100000010,
-            name  : "1.2.0",
+            name  : "0.0.1",
             sdk   : 28,
-            minSdk: 19
+            minSdk: 21
     ]
 
     supportDependencies = [
