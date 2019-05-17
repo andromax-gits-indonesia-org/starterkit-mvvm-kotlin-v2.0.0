@@ -1,1 +1,1 @@
-include ':mainmodule', ':apputils', ':settings'
+include ':app', ':movies', ':moviesdetail', ':gitsutils'
